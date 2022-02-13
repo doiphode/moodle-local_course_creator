@@ -1,0 +1,10 @@
+.path-local-course_creation_wizard #mform1 #id_course_create_header .col-md-9 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.path-local-course_creation_wizard #mform1 #id_course_create_header .col-md-9 .form-check-inline {
+    flex: 0 0 100%;
+    max-width: 100%;
+    justify-content: left;
+}
