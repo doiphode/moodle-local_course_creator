@@ -1,4 +1,4 @@
-# moodle-local_course_creation_wizard
+# Course Creation Wizard
 
 The Course Creation Wizard gives users a quick way to create courses within a category. It sits under the course category menu.
 
