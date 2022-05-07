@@ -30,9 +30,13 @@ $eid = optional_param('id', 0, PARAM_INT);
 $deleteid = optional_param('delete', 0, PARAM_INT);
 $categoryid = optional_param('category', 0, PARAM_INT);
 
+// Permissions --
 $catcontext = context_coursecat::instance($COURSE->id);
 require_capability('moodle/course:create', $catcontext);
 
+require_capability('moodle/backup:backupcourse', context_course::instance($COURSE->id));  
+// --
+    
 $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_url('/local/course_creation_wizard/courselist.php?category=' . $categoryid);
@@ -55,7 +59,7 @@ if ($deleteid > 0) {
 
 $data = new stdClass();
 if ($eid > 0) {
-    $data = $DB->get_record_sql("SELECT * FROM {course_template_items} WHERE id=" . $eid);
+    $data = $DB->get_record_sql("SELECT * FROM {course_template_items} WHERE id=?", array($eid));
 }
 
 $mform = new addcourse_form(null, array('data' => $data, "category" => $categoryid));
@@ -76,9 +80,9 @@ if ($mform->is_cancelled()) {
 
     if ($courseid > 0) {
         ## Check courseid
-        $record = $DB->get_record_sql("select count(*) as allcount from {course} where id=" . $courseid . " and visible = 1");
+        $record = $DB->get_record_sql("select count(*) as allcount from {course} where id=? and visible = 1", array($courseid));
         if ($record->allcount > 0) {
-            $record = $DB->get_record_sql("select count(*) as allcount from {course_template_items} where courseid=" . $courseid . " and categoryid=" . $categoryid);
+            $record = $DB->get_record_sql("select count(*) as allcount from {course_template_items} where courseid=? and categoryid=?", array($courseid,$categoryid));
             if ($record->allcount == 0) {
                 if ($eid > 0) {
                     $updatedatarecord = new stdClass();

@@ -32,13 +32,17 @@ global $SESSION;
 $SESSION->catid = $categoryid;
 
 require_login();
+
+// Permissions --
 $catcontext = context_coursecat::instance($categoryid);
 require_capability('moodle/course:create', $catcontext);
+require_capability('moodle/backup:backupcourse', context_course::instance($COURSE->id));
+// --
 
 $PAGE->set_context(context_coursecat::instance($categoryid));
-$jsUrl = new moodle_url($CFG->wwwroot . '/local/course_creation_wizard/js/jquery-3.2.1.min.js');
+
+$PAGE->requires->jquery();
 $require = $PAGE->requires;
-$require->js($jsUrl, true);
 
 //Try to add js externally
 $jsUrl = new moodle_url($CFG->wwwroot . '/local/course_creation_wizard/module.js');

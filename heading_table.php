@@ -55,8 +55,7 @@ class heading_table extends table_sql {
 
         global $DB;
 
-        $data = $DB->get_record_sql("SELECT count(*) as allcount FROM {course_template_items} WHERE categoryid=" . $id);
-
+        $data = $DB->get_record_sql("SELECT count(*) as allcount FROM {course_template_items} WHERE categoryid=?", array($id));
         return $data->allcount;
     }
 

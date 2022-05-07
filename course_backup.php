@@ -26,10 +26,11 @@ global $DB, $CFG, $USER, $COURSE, $OUTPUT, $PAGE, $EXTDB;
 require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
 require_once($CFG->dirroot . '/backup/moodle2/backup_plan_builder.class.php');
 require_login();
+
 $PAGE->set_context(context_system::instance());
-$jsUrl = new moodle_url($CFG->wwwroot . '/local/course_creation_wizard/js/jquery-3.2.1.min.js');
+
 $require = $PAGE->requires;
-$require->js($jsUrl, true);
+$PAGE->requires->jquery();
 $jsUrl = '/local/course_creation_wizard/module.js';
 $require = $PAGE->requires;
 $require->js($jsUrl);

@@ -33,8 +33,12 @@ require("heading_table.php");
 
 $categoryid = optional_param('category', 0, PARAM_INT);
 
+// Permissions --
 $catcontext = context_coursecat::instance($categoryid);
 require_capability('moodle/course:create', $catcontext);
+
+require_capability('moodle/backup:backupcourse', context_course::instance($COURSE->id));
+// --
 
 $PAGE->set_url($CFG->wwwroot . '/local/course_creation_wizard/headinglist.php?category=' . $categoryid);
 $PAGE->set_context(context_system::instance());

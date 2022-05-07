@@ -56,17 +56,15 @@ class courselist_table extends table_sql {
         global $DB;
         $id = $value->courseid;
 
-        $data = $DB->get_record_sql("SELECT * FROM {course} WHERE id=" . $id);
-
+        $data = $DB->get_record_sql("SELECT * FROM {course} WHERE id=?", array($id));
         return $data->fullname;
     }
 
     function col_category($value) {
         global $DB;
         $id = $value->categoryid;
-
-        $data = $DB->get_record_sql("SELECT * FROM {course_template_category} WHERE id=" . $id);
-
+        
+        $data = $DB->get_record_sql("SELECT * FROM {course_template_category} WHERE id=?", array($id));
         return $data->name;
     }
 
@@ -74,11 +72,14 @@ class courselist_table extends table_sql {
         $categoryid = optional_param('category', 0, PARAM_INT);
         $id = $value->id;
 
-        $action = '<div >
-            <a href="addcourse.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('edit') . '</a>&nbsp;&nbsp;
-            <a href="addcourse.php?category=' . $categoryid . '&delete=' . $id . '">' . get_string('delete') . '</a>
-        </div>';
-
+        $action = "";
+        if(is_numeric($categoryid) && is_numeric($id)){
+            $action = '<div >
+                <a href="addcourse.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('edit') . '</a>&nbsp;&nbsp;
+                <a href="addcourse.php?category=' . $categoryid . '&delete=' . $id . '">' . get_string('delete') . '</a>
+            </div>';
+        }
+        
         return $action;
     }
 

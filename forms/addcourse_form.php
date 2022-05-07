@@ -78,11 +78,11 @@ class addcourse_form extends moodleform {
         $mform->addElement('html', $linkcontent);
 
         $mform->addElement('hidden', 'eid', "", array("size" => 50, "maxlength" => 50, "width" => "100%"));
-        $mform->setType('eid', PARAM_RAW);
+        $mform->setType('eid', PARAM_INT);
         $mform->setDefault('eid', $eid);
 
         $mform->addElement('hidden', 'catid', "", array("size" => 50, "maxlength" => 50, "width" => "100%"));
-        $mform->setType('catid', PARAM_RAW);
+        $mform->setType('catid', PARAM_INT);
         $mform->setDefault('catid', $catid);
 
         $mform->addElement('select', 'categoryid', get_string('heading', 'local_course_creation_wizard'), $category_arr);
@@ -93,7 +93,7 @@ class addcourse_form extends moodleform {
         // $mform->setDefault('courseid', $courseid);
         // $mform->addRule('courseid', get_string('missingcategory','local_course_creation_wizard'), 'required', null, 'client');
         $mform->addElement('text', 'courseid', get_string('courseid', 'local_course_creation_wizard'), 'maxlength="254" size="50"');
-        $mform->setType('courseid', PARAM_RAW);
+        $mform->setType('courseid', PARAM_INT);
         $mform->addRule('courseid', get_string('missingcourseid', 'local_course_creation_wizard'), 'required', null, 'client');
         $mform->addRule('courseid', get_string('enternumberonly', 'local_course_creation_wizard'), 'numeric', null, 'client');
         $mform->setDefault('courseid', $courseid);

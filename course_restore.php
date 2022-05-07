@@ -26,6 +26,11 @@ global $DB, $CFG, $USER, $COURSE, $PAGE, $EXTDB, $OUTPUT;
 require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 require_once 'forms/course_restore_form.php';
 require_login();
+
+// Permissions --
+require_capability('moodle/backup:backupcourse', context_course::instance($COURSE->id));
+// --
+
 $PAGE->set_context(context_system::instance());
 $filename = required_param('filename', PARAM_ALPHANUM);
 $url = new moodle_url('/local/course_creation_wizard/course_restore.php', array('filename' => $filename));

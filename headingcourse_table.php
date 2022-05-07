@@ -53,8 +53,7 @@ class headingcourse_table extends table_sql {
 
         global $DB;
 
-        $data = $DB->get_record_sql("SELECT * FROM {course} WHERE id=" . $courseid);
-
+        $data = $DB->get_record_sql("SELECT * FROM {course} WHERE id=?", array($courseid));
         return $data->fullname;
     }
 

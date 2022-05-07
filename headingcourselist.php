@@ -38,8 +38,7 @@ if ($deleteid > 0) {
     $DB->delete_records('course_template_items', array('id' => $deleteid));
     redirect(urldecode($returnurl));
 }
-
-$record = $DB->get_record_sql("select name from {course_template_category} where id=" . $headingid);
+$record = $DB->get_record_sql("select name from {course_template_category} where id=?", array($headingid));
 
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/formslib.php');

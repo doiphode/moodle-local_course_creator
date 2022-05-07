@@ -60,9 +60,9 @@ class course_create_form extends moodleform {
         foreach ($tempcourses as $id => &$tempcourse) {
             $tempcourse = $tempcourse->fullname;
         }
-//        $mform->addElement('select', 'course_template', get_string('template_options', 'local_course_creation_wizard'), $tempcourses, array('class'=>'create_template'));
+        //        $mform->addElement('select', 'course_template', get_string('template_options', 'local_course_creation_wizard'), $tempcourses, array('class'=>'create_template'));
 
-        $courseTemplate_arr = array();
+        $courseTemplate_arr = array(); 
         $records = $DB->get_records_sql("SELECT cti.*,ctc.name as categoryname,c.fullname as coursename FROM {course_template_items} cti LEFT JOIN {course_template_category} ctc ON cti.categoryid=ctc.id LEFT JOIN {course} c ON c.id=cti.courseid order by cti.categoryid asc");
         foreach ($records as $record) {
             $courseTemplate_arr[$record->categoryname][$record->courseid] = $record->coursename;

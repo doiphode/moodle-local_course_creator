@@ -29,9 +29,12 @@ $eid = optional_param('id', 0, PARAM_INT);
 $deleteid = optional_param('delete', 0, PARAM_INT);
 $categoryid = optional_param('category', 1, PARAM_INT);
 
+// Permissions --
 $catcontext = context_coursecat::instance($COURSE->id);
 require_capability('moodle/course:create', $catcontext);
 
+require_capability('moodle/backup:backupcourse', context_course::instance($COURSE->id));
+// --
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -57,7 +60,7 @@ if ($deleteid > 0) {
 
 $data = new stdClass();
 if ($eid > 0) {
-    $data = $DB->get_record_sql("SELECT * FROM {course_template_category} WHERE id=" . $eid);
+    $data = $DB->get_record_sql("SELECT * FROM {course_template_category} WHERE id=?", array($eid));
 }
 
 $mform = new addheading_form(null, array('data' => $data, "category" => $categoryid));
@@ -78,7 +81,8 @@ if ($mform->is_cancelled()) {
 
     if ($categoryname != '') {
 
-        $record = $DB->get_record_sql("select count(*) as allcount from {course_template_category} where name='" . $categoryname . "' ");
+        $record = $DB->get_record_sql("select count(*) as allcount from {course_template_category} where name=?", array($categoryname));
+
         if ($record->allcount == 0) {
 
             if ($eid > 0) {
