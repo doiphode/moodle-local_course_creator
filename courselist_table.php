@@ -16,7 +16,7 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -44,7 +44,7 @@ class courselist_table extends table_sql {
         // Define the titles of columns to show in header.
 
         $headers = array(
-            get_string('courseid', 'local_course_creation_wizard'),
+            get_string('courseid', 'local_course_creator'),
             get_string('course'),
             get_string('category'),
             get_string('action'));
@@ -64,7 +64,7 @@ class courselist_table extends table_sql {
         global $DB;
         $id = $value->categoryid;
         
-        $data = $DB->get_record_sql("SELECT * FROM {course_template_category} WHERE id=?", array($id));
+        $data = $DB->get_record_sql("SELECT * FROM {local_course_creator_cat} WHERE id=?", array($id));
         return $data->name;
     }
 

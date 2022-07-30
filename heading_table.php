@@ -16,7 +16,7 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -45,7 +45,7 @@ class heading_table extends table_sql {
 
         $headers = array(
             get_string('name'),
-            get_string('totalcourse', 'local_course_creation_wizard'),
+            get_string('totalcourse', 'local_course_creator'),
             get_string('action'));
         $this->define_headers($headers);
     }
@@ -55,7 +55,7 @@ class heading_table extends table_sql {
 
         global $DB;
 
-        $data = $DB->get_record_sql("SELECT count(*) as allcount FROM {course_template_items} WHERE categoryid=?", array($id));
+        $data = $DB->get_record_sql("SELECT count(*) as allcount FROM {local_course_creator_items} WHERE categoryid=?", array($id));
         return $data->allcount;
     }
 
@@ -66,7 +66,7 @@ class heading_table extends table_sql {
         $action = '<div >
             <a href="addheading.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('edit') . '</a>&nbsp;&nbsp;
             <a href="addheading.php?category=' . $categoryid . '&delete=' . $id . '">' . get_string('delete') . '</a>&nbsp;&nbsp;
-            <a href="headingcourselist.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('viewcourse', 'local_course_creation_wizard') . '</a>
+            <a href="headingcourselist.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('viewcourse', 'local_course_creator') . '</a>
         </div>';
 
         return $action;

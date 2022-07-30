@@ -17,13 +17,13 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-require_once 'forms/course_create_form.php';
+require_once 'forms/local_course_creator_course_create_form.php';
 
 global $DB, $CFG, $USER, $COURSE, $OUTPUT, $PAGE, $EXTDB;
 $categoryid = optional_param('category', '0', PARAM_INT); // Course category - can be changed in edit form.
@@ -45,19 +45,19 @@ $PAGE->requires->jquery();
 $require = $PAGE->requires;
 
 //Try to add js externally
-$jsUrl = new moodle_url($CFG->wwwroot . '/local/course_creation_wizard/module.js');
+$jsUrl = new moodle_url($CFG->wwwroot . '/local/course_creator/module.js');
 $require = $PAGE->requires;
 $require->js($jsUrl);
 //try to load normal js
 $PAGE->requires->js_init_call('M.course_create.toggle');
-$PAGE->set_url('/local/course_creation_wizard/view.php', array('category' => $categoryid));
-$PAGE->set_title('Course Creation Wizard');
-$PAGE->set_heading('Choose');
+$PAGE->set_url('/local/course_creator/view.php', array('category' => $categoryid));
+$PAGE->set_title(get_string('pluginname','local_course_creator'));
+$PAGE->set_heading(get_string('choose','local_course_creator'));
 $PAGE->set_pagelayout('admin');
 
 
-$renderer = $PAGE->get_renderer('local_course_creation_wizard');
-$editform = new course_create_form($CFG->wwwroot . '/local/course_creation_wizard/view.php?category=' . $categoryid);
+$renderer = $PAGE->get_renderer('local_course_creator');
+$editform = new local_course_creator_course_create_form($CFG->wwwroot . '/local/course_creator/view.php?category=' . $categoryid);
 if ($editform->is_cancelled()) {
     //Handle form cancel operation, if cancel button is present on form
     redirect(new moodle_url('/'));
@@ -70,16 +70,16 @@ if ($editform->is_cancelled()) {
         echo 'redirecting...';
         redirect(new moodle_url('/course/edit.php', array('category' => $categoryid, 'returnto' => 'category')));
     } elseif ($course_create_type == "1") {
-        redirect(new moodle_url('/local/course_creation_wizard/course_backup.php', array('course' => $course_prev_id, 'category' => $categoryid, 'returnto' => 'category')));
+        redirect(new moodle_url('/local/course_creator/course_backup.php', array('course' => $course_prev_id, 'category' => $categoryid, 'returnto' => 'category')));
     } elseif ($course_create_type == "0") {
-        redirect(new moodle_url('/local/course_creation_wizard/course_backup.php', array('course' => $course_template_id, 'category' => $categoryid, 'returnto' => 'category')));
+        redirect(new moodle_url('/local/course_creator/course_backup.php', array('course' => $course_template_id, 'category' => $categoryid, 'returnto' => 'category')));
     }
 } else {
     echo $OUTPUT->header();
 
     // ---
-    $addurl = new moodle_url('/local/course_creation_wizard/addheading.php?category=' . $categoryid);
-    //$linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="'.$addurl.'">'.get_string('add_heading','local_course_creation_wizard').'</a></div>';
+    $addurl = new moodle_url('/local/course_creator/addheading.php?category=' . $categoryid);
+    //$linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="'.$addurl.'">'.get_string('add_heading','local_course_creator').'</a></div>';
     //echo $linkcontent;
     // ---
 

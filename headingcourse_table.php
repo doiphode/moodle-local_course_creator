@@ -16,7 +16,7 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

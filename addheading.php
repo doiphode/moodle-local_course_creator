@@ -16,13 +16,13 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(dirname(__FILE__)) . '../../config.php');
 global $PAGE, $CFG, $USER, $DB, $OUTPUT, $COURSE, $SESSION;
-require_once("$CFG->dirroot/local/course_creation_wizard/forms/addheading_form.php");
+require_once("$CFG->dirroot/local/course_creator/forms/local_course_creator_addheading_form.php");
 require_login();
 
 $eid = optional_param('id', 0, PARAM_INT);
@@ -38,36 +38,37 @@ require_capability('moodle/backup:backupcourse', context_course::instance($COURS
 
 $context = context_system::instance();
 $PAGE->set_context($context);
-$PAGE->set_url('/local/course_creation_wizard/addheading.php?category=' . $categoryid);
+$PAGE->set_url('/local/course_creator/addheading.php?category=' . $categoryid);
 $PAGE->requires->jquery();
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title(get_string('pluginname', 'local_course_creation_wizard'));
-$PAGE->set_heading(get_string('pluginname', 'local_course_creation_wizard'));
+$PAGE->set_title(get_string('pluginname', 'local_course_creator'));
+$PAGE->set_heading(get_string('pluginname', 'local_course_creator'));
 
 
-$previewnode = $PAGE->navigation->add(get_string('pluginname', 'local_course_creation_wizard'), new moodle_url('/local/course_creation_wizard/view.php?category=' . $categoryid), navigation_node::TYPE_CONTAINER);
-$thingnode = $previewnode->add(get_string('add_heading', 'local_course_creation_wizard'), new moodle_url('/local/course_creation_wizard/addheading.php?category=' . $categoryid));
+$previewnode = $PAGE->navigation->add(get_string('pluginname', 'local_course_creator'), new moodle_url('/local/course_creator/view.php?category=' . $categoryid), navigation_node::TYPE_CONTAINER);
+$thingnode = $previewnode->add(get_string('add_heading', 'local_course_creator'), new moodle_url('/local/course_creator/addheading.php?category=' . $categoryid));
 $thingnode->make_active();
 
-$returnurl = new moodle_url('/local/course_creation_wizard/headinglist.php?category=' . $categoryid);
+$returnurl = new moodle_url('/local/course_creator/headinglist.php?category=' . $categoryid);
 
 ## Delete record
 if ($deleteid > 0) {
-    $DB->delete_records('course_template_category', array('id' => $deleteid));
-    $DB->delete_records('course_template_items', array('categoryid' => $deleteid));
+    require_sesskey();
+    $DB->delete_records('local_course_creator_cat', array('id' => $deleteid));
+    $DB->delete_records('local_course_creator_items', array('categoryid' => $deleteid));
     redirect(urldecode($returnurl));
 }
 
 $data = new stdClass();
 if ($eid > 0) {
-    $data = $DB->get_record_sql("SELECT * FROM {course_template_category} WHERE id=?", array($eid));
+    $data = $DB->get_record_sql("SELECT * FROM {local_course_creator_cat} WHERE id=?", array($eid));
 }
 
-$mform = new addheading_form(null, array('data' => $data, "category" => $categoryid));
+$mform = new local_course_creator_addheading_form(null, array('data' => $data, "category" => $categoryid));
 
 if ($mform->is_cancelled()) {
 
-    $returnurl = new moodle_url('/local/course_creation_wizard/headinglist.php?category=' . $SESSION->catid);
+    $returnurl = new moodle_url('/local/course_creator/headinglist.php?category=' . $SESSION->catid);
 
     redirect($returnurl);
 } else if ($formdata = $mform->get_data()) {
@@ -77,11 +78,11 @@ if ($mform->is_cancelled()) {
     $categoryname = trim($formdata->name);
     // $category = $formdata->category;
 
-    $returnurl = new moodle_url('/local/course_creation_wizard/headinglist.php?category=' . $catid);
+    $returnurl = new moodle_url('/local/course_creator/headinglist.php?category=' . $catid);
 
     if ($categoryname != '') {
 
-        $record = $DB->get_record_sql("select count(*) as allcount from {course_template_category} where name=?", array($categoryname));
+        $record = $DB->get_record_sql("select count(*) as allcount from {local_course_creator_cat} where name=?", array($categoryname));
 
         if ($record->allcount == 0) {
 
@@ -90,13 +91,13 @@ if ($mform->is_cancelled()) {
                 $updatedatarecord->id = $eid;
                 $updatedatarecord->name = $categoryname;
 
-                $result = $DB->update_record('course_template_category', $updatedatarecord);
+                $result = $DB->update_record('local_course_creator_cat', $updatedatarecord);
             } else {
                 $insert = new stdClass();
                 $insert->name = $categoryname;
                 $insert->timecreated = time();
 
-                $result = $DB->insert_record('course_template_category', $insert, true);
+                $result = $DB->insert_record('local_course_creator_cat', $insert, true);
             }
         }
 

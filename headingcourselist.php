@@ -16,7 +16,7 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,25 +33,26 @@ $categoryid = optional_param('category', 0, PARAM_INT);
 $catcontext = context_coursecat::instance($categoryid);
 require_capability('moodle/course:create', $catcontext);
 
-$returnurl = new moodle_url('/local/course_creation_wizard/headingcourselist.php?category=' . $categoryid . '&id=' . $headingid);
+$returnurl = new moodle_url('/local/course_creator/headingcourselist.php?category=' . $categoryid . '&id=' . $headingid);
 if ($deleteid > 0) {
-    $DB->delete_records('course_template_items', array('id' => $deleteid));
+    require_sesskey();
+    $DB->delete_records('local_course_creator_items', array('id' => $deleteid));
     redirect(urldecode($returnurl));
 }
-$record = $DB->get_record_sql("select name from {course_template_category} where id=?", array($headingid));
+$record = $DB->get_record_sql("select name from {local_course_creator_cat} where id=?", array($headingid));
 
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/formslib.php');
 
 require("headingcourse_table.php");
-$PAGE->set_url($CFG->wwwroot . '/local/course_creation_wizard/headingcourselist.php?category=' . $categoryid . '&id=' . $headingid);
+$PAGE->set_url($CFG->wwwroot . '/local/course_creator/headingcourselist.php?category=' . $categoryid . '&id=' . $headingid);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title(get_string('pluginname', 'local_course_creation_wizard'));
-$PAGE->set_heading(get_string('pluginname', 'local_course_creation_wizard'));
+$PAGE->set_title(get_string('pluginname', 'local_course_creator'));
+$PAGE->set_heading(get_string('pluginname', 'local_course_creator'));
 
-$previewnode = $PAGE->navigation->add(get_string('pluginname', 'local_course_creation_wizard'), new moodle_url('/local/course_creation_wizard/view.php?category=' . $categoryid), navigation_node::TYPE_CONTAINER);
-$thingnode = $previewnode->add($record->name . " - " . get_string('course_list', 'local_course_creation_wizard'), new moodle_url('/local/course_creation_wizard/headingcourselist.php?category=' . $categoryid));
+$previewnode = $PAGE->navigation->add(get_string('pluginname', 'local_course_creator'), new moodle_url('/local/course_creator/view.php?category=' . $categoryid), navigation_node::TYPE_CONTAINER);
+$thingnode = $previewnode->add($record->name . " - " . get_string('course_list', 'local_course_creator'), new moodle_url('/local/course_creator/headingcourselist.php?category=' . $categoryid));
 $thingnode->make_active();
 
 $PAGE->requires->jquery();
@@ -60,22 +61,20 @@ $PAGE->requires->jquery();
 echo $OUTPUT->header();
 
 //plan list table
-$pera[] = 'categoryid = ' . $headingid;
 $table = new headingcourse_table('uniqueid');
 
 // Work out the sql for the table.
-$perasstring = implode("&&", $pera);
-$table->set_sql('*', "{course_template_items}", "$perasstring");
+$table->set_sql('*', "{local_course_creator_items}", "categoryid=:categoryid",array("categoryid"=>$headingid));
 $table->no_sorting('courseid');
 $table->no_sorting('action');
-$table->define_baseurl("$CFG->wwwroot/local/course_creation_wizard/headingcourselist.php?category=" . $categoryid . "&id=" . $headingid);
+$table->define_baseurl("$CFG->wwwroot/local/course_creator/headingcourselist.php?category=" . $categoryid . "&id=" . $headingid);
 
-echo "<h2>" . $record->name . " - " . get_string('course_list', 'local_course_creation_wizard') . "</h2>";
+echo "<h2>" . $record->name . " - " . get_string('course_list', 'local_course_creator') . "</h2>";
 
-$addurl = new moodle_url('/local/course_creation_wizard/addheading.php?category=' . $categoryid);
-$headinglisturl = new moodle_url('/local/course_creation_wizard/headinglist.php?category=' . $categoryid);
+$addurl = new moodle_url('/local/course_creator/addheading.php?category=' . $categoryid);
+$headinglisturl = new moodle_url('/local/course_creator/headinglist.php?category=' . $categoryid);
 
-$linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_heading', 'local_course_creation_wizard') . '</a>&nbsp;&nbsp;<a href="' . $headinglisturl . '">' . get_string('heading_list', 'local_course_creation_wizard') . '</a></div>';
+$linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_heading', 'local_course_creator') . '</a>&nbsp;&nbsp;<a href="' . $headinglisturl . '">' . get_string('heading_list', 'local_course_creator') . '</a></div>';
 echo $linkcontent;
 
 $table->out(20, true);

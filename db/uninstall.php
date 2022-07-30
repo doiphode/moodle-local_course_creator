@@ -18,7 +18,7 @@
  * Code that is executed before the tables and data are dropped during the plugin uninstallation.
  *
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Custom uninstallation procedure.
  */
-function xmldb_course_creation_wizard_uninstall() {
+function xmldb_course_creator_uninstall() {
 
     return true;
 }

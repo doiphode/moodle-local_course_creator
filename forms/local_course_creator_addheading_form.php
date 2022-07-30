@@ -17,7 +17,7 @@
 /**
  * minimalistic edit form
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,50 +31,32 @@ require_once("$CFG->libdir/formslib.php");
  * @copyright 2010 Petr Skoda (http://skodak.org)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class addcourse_form extends moodleform {
+class local_course_creator_addheading_form extends moodleform {
 
     /**
      * Add elements to this form.
      */
     public function definition() {
-
-        global $DB;
-
-        $catid = optional_param('category', 0, PARAM_INT);
-
-        ## heading list
-        $records = $DB->get_records_sql("SELECT * FROM {course_template_category} order by name asc");
-        $category_arr = array();
-        $categoryid = 0;
-        foreach ($records as $record) {
-            if ($categoryid == 0) $categoryid = $record->id;
-            $category_arr[$record->id] = $record->name;
-        }
-
-        ## course names
-        $course_arr = array();
-        $courseid = 0;
+        $categoryid = optional_param('category', 0, PARAM_INT);
 
         $mform = $this->_form;
 
         $data = $this->_customdata['data'];
         $catid = $this->_customdata['category'];
-
         $name = "";
         $eid = 0;
-        if (isset($data->courseid)) {
-            $courseid = $data->courseid;
+        if (isset($data->name)) {
+            $name = $data->name;
             $eid = $data->id;
-            $categoryid = $data->categoryid;
         }
         if (empty($path)) {
             $path = '/';
         }
 
-        $returnurl = new moodle_url('/local/course_creation_wizard/courselist.php?category=' . $catid);
-        $addurl = new moodle_url('/local/course_creation_wizard/addheading.php?category=' . $catid);
+        $returnurl = new moodle_url('/local/course_creator/headinglist.php?category=' . $catid);
+        $addurl = new moodle_url('/local/course_creator/addcourse.php?category=' . $catid);
 
-        $linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_heading', 'local_course_creation_wizard') . '</a>&nbsp;&nbsp;&nbsp;<a href="' . $returnurl . '">' . get_string('course_list', 'local_course_creation_wizard') . '</a></div>';
+        $linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_course', 'local_course_creator') . '</a>&nbsp;&nbsp;&nbsp;<a href="' . $returnurl . '">' . get_string('heading_list', 'local_course_creator') . '</a></div>';
         $mform->addElement('html', $linkcontent);
 
         $mform->addElement('hidden', 'eid', "", array("size" => 50, "maxlength" => 50, "width" => "100%"));
@@ -85,18 +67,15 @@ class addcourse_form extends moodleform {
         $mform->setType('catid', PARAM_INT);
         $mform->setDefault('catid', $catid);
 
-        $mform->addElement('select', 'categoryid', get_string('heading', 'local_course_creation_wizard'), $category_arr);
-        $mform->setDefault('categoryid', $categoryid);
-        $mform->addRule('categoryid', get_string('missingcategory', 'local_course_creation_wizard'), 'required', null, 'client');
+        $mform->addElement('text', 'name', get_string('name'), 'maxlength="254" size="50"');
+        $mform->setType('name', PARAM_TEXT);
+        $mform->addRule('name', get_string('missingfullname'), 'required', null, 'client');
+        $mform->setDefault('name', $name);
 
-        // $mform->addElement('select', 'courseid', get_string('course'), $course_arr);
-        // $mform->setDefault('courseid', $courseid);
-        // $mform->addRule('courseid', get_string('missingcategory','local_course_creation_wizard'), 'required', null, 'client');
-        $mform->addElement('text', 'courseid', get_string('courseid', 'local_course_creation_wizard'), 'maxlength="254" size="50"');
-        $mform->setType('courseid', PARAM_INT);
-        $mform->addRule('courseid', get_string('missingcourseid', 'local_course_creation_wizard'), 'required', null, 'client');
-        $mform->addRule('courseid', get_string('enternumberonly', 'local_course_creation_wizard'), 'numeric', null, 'client');
-        $mform->setDefault('courseid', $courseid);
+
+        // $category_arr = $this->categoryTree();
+        // $mform->addElement('select', 'category', get_string('category'), $category_arr);
+
 
         $mform->setType('returnurl', PARAM_LOCALURL);
 

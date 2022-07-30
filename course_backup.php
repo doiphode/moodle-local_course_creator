@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,12 +31,12 @@ $PAGE->set_context(context_system::instance());
 
 $require = $PAGE->requires;
 $PAGE->requires->jquery();
-$jsUrl = '/local/course_creation_wizard/module.js';
+$jsUrl = '/local/course_creator/module.js';
 $require = $PAGE->requires;
 $require->js($jsUrl);
 //try to load normal js
 $PAGE->requires->js_init_call('M.course_create.adjustForm');
-$localRenderer = $PAGE->get_renderer('local_course_creation_wizard');
+$localRenderer = $PAGE->get_renderer('local_course_creator');
 $courseid = required_param('course', PARAM_INT);
 $sectionid = optional_param('section', null, PARAM_INT);
 $cmid = optional_param('cm', null, PARAM_INT);
@@ -45,7 +45,7 @@ $cmid = optional_param('cm', null, PARAM_INT);
  */
 $backupid = optional_param('backup', false, PARAM_ALPHANUM);
 
-$url = new moodle_url('/local/course_creation_wizard/course_backup.php', array('course' => $courseid));
+$url = new moodle_url('/local/course_creator/course_backup.php', array('course' => $courseid));
 if ($sectionid !== null) {
     $url->param('section', $sectionid);
 }
@@ -54,8 +54,8 @@ if ($cmid !== null) {
 }
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title('Course Creation Wizard');
-$PAGE->set_heading('Choose');
+$PAGE->set_title(get_string('pluginname','local_course_creator'));
+$PAGE->set_heading(get_string('choose','local_course_creator'));
 
 $id = $courseid;
 $cm = null;
@@ -142,7 +142,7 @@ if ($backup->get_stage() == backup_ui::STAGE_FINAL) {
     echo html_writer::start_div('', array('id' => 'executionprogress'));
     //echo $renderer->progress_bar($backup->get_progress_bar());
     echo $localRenderer->display_breadcrumb(1);
-    echo get_string('course_backing_up', 'local_course_creation_wizard');
+    echo get_string('course_backing_up', 'local_course_creator');
     $backup->get_controller()->set_progress(new \core\progress\display());
 
     // Prepare logger and add to end of chain.
@@ -166,9 +166,9 @@ if ($backup->get_stage() == backup_ui::STAGE_FINAL) {
     echo html_writer::end_div();
 
 
-    // redirect(new moodle_url('/local/course_creation_wizard/course_restore.php', array('filename' => $filename)));
+    // redirect(new moodle_url('/local/course_creator/course_restore.php', array('filename' => $filename)));
 
-    echo "<script type='text/javascript'>window.location='" . new moodle_url('/local/course_creation_wizard/course_restore.php', array('filename' => $filename)) . "'</script>";
+    echo "<script type='text/javascript'>window.location='" . new moodle_url('/local/course_creator/course_restore.php', array('filename' => $filename)) . "'</script>";
     // Backup controller gets saved/loaded so the logger object changes and we
     // have to retrieve it.
     $logger = $backup->get_controller()->get_logger();
@@ -207,4 +207,3 @@ if ($loghtml != '') {
 }
 
 echo $OUTPUT->footer();
-?>

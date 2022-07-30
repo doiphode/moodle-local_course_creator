@@ -1,5 +1,5 @@
 <?php
-namespace local_course_creation_wizard\privacy;
+namespace local_course_creator\privacy;
 
 class provider implements
     // This plugin does not store any personal user data.

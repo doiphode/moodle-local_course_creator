@@ -16,7 +16,7 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -40,14 +40,14 @@ require_capability('moodle/course:create', $catcontext);
 require_capability('moodle/backup:backupcourse', context_course::instance($COURSE->id));
 // --
 
-$PAGE->set_url($CFG->wwwroot . '/local/course_creation_wizard/headinglist.php?category=' . $categoryid);
+$PAGE->set_url($CFG->wwwroot . '/local/course_creator/headinglist.php?category=' . $categoryid);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title(get_string('pluginname', 'local_course_creation_wizard'));
-$PAGE->set_heading(get_string('pluginname', 'local_course_creation_wizard'));
+$PAGE->set_title(get_string('pluginname', 'local_course_creator'));
+$PAGE->set_heading(get_string('pluginname', 'local_course_creator'));
 
-$previewnode = $PAGE->navigation->add(get_string('pluginname', 'local_course_creation_wizard'), new moodle_url('/local/course_creation_wizard/view.php?category=' . $categoryid), navigation_node::TYPE_CONTAINER);
-$thingnode = $previewnode->add(get_string('heading_list', 'local_course_creation_wizard'), new moodle_url('/local/course_creation_wizard/headinglist.php?category=' . $categoryid));
+$previewnode = $PAGE->navigation->add(get_string('pluginname', 'local_course_creator'), new moodle_url('/local/course_creator/view.php?category=' . $categoryid), navigation_node::TYPE_CONTAINER);
+$thingnode = $previewnode->add(get_string('heading_list', 'local_course_creator'), new moodle_url('/local/course_creator/headinglist.php?category=' . $categoryid));
 $thingnode->make_active();
 
 $PAGE->requires->jquery();
@@ -59,22 +59,24 @@ $pera[] = 'id > 0';
 $table = new heading_table('uniqueid');
 $search = optional_param('search', '', PARAM_ALPHA);
 $searchstr = "";
+$where = array();
 if (!empty($search)) {
-    $searchstr = 'name like "%' . $search . '%"';
+    $searchstr = 'name like :search';
     $pera[] = '( ' . $searchstr . ' )';
+    $where['search'] = "%".$search."%";
 }
 // Work out the sql for the table.
 $perasstring = implode("&&", $pera);
-$table->set_sql('*', "{course_template_category}", "$perasstring");
+$table->set_sql('*', "{local_course_creator_cat}", "$perasstring",$where);
 $table->no_sorting('name');
 $table->no_sorting('totalcourse');
 $table->no_sorting('action');
 // $table->sortable(true,'daytimestamp','DESC');
-$table->define_baseurl("$CFG->wwwroot/local/course_creation_wizard/headinglist.php?category=" . $categoryid);
+$table->define_baseurl("$CFG->wwwroot/local/course_creator/headinglist.php?category=" . $categoryid);
 
-$addurl = new moodle_url('/local/course_creation_wizard/addheading.php?category=' . $categoryid);
-$addtemplateurl = new moodle_url('/local/course_creation_wizard/addcourse.php?category=' . $categoryid);
-$linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_heading', 'local_course_creation_wizard') . '</a>&nbsp;&nbsp;&nbsp;<a href="' . $addtemplateurl . '">' . get_string('add_course', 'local_course_creation_wizard') . '</a></div>';
+$addurl = new moodle_url('/local/course_creator/addheading.php?category=' . $categoryid);
+$addtemplateurl = new moodle_url('/local/course_creator/addcourse.php?category=' . $categoryid);
+$linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_heading', 'local_course_creator') . '</a>&nbsp;&nbsp;&nbsp;<a href="' . $addtemplateurl . '">' . get_string('add_course', 'local_course_creator') . '</a></div>';
 echo $linkcontent;
 
 $table->out(20, true);

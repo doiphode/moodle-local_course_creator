@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -24,7 +24,7 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once('classlib.php');
 global $DB, $CFG, $USER, $COURSE, $PAGE, $EXTDB, $OUTPUT;
 require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
-require_once 'forms/course_restore_form.php';
+require_once 'forms/local_course_creator_course_restore_form.php';
 require_login();
 
 // Permissions --
@@ -33,13 +33,13 @@ require_capability('moodle/backup:backupcourse', context_course::instance($COURS
 
 $PAGE->set_context(context_system::instance());
 $filename = required_param('filename', PARAM_ALPHANUM);
-$url = new moodle_url('/local/course_creation_wizard/course_restore.php', array('filename' => $filename));
+$url = new moodle_url('/local/course_creator/course_restore.php', array('filename' => $filename));
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title('Course Creation Wizard');
-$PAGE->set_heading('Choose');
-$restoreform = new course_restore_form($CFG->wwwroot . '/local/course_creation_wizard/course_restore.php?filename=' . $filename);
-$renderer = $PAGE->get_renderer('local_course_creation_wizard');
+$PAGE->set_title(get_string('pluginname','local_course_creator'));
+$PAGE->set_heading(get_string('choose','local_course_creator'));
+$restoreform = new local_course_creator_course_restore_form($CFG->wwwroot . '/local/course_creator/course_restore.php?filename=' . $filename);
+$renderer = $PAGE->get_renderer('local_course_creator');
 if ($restoreform->is_cancelled()) {
     //Handle form cancel operation, if cancel button is present on form
     $directory = $CFG->tempdir . '/backup/';
@@ -62,4 +62,3 @@ if ($restoreform->is_cancelled()) {
     $restoreform->display();
     echo $OUTPUT->footer();
 }
-?>

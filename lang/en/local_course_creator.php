@@ -17,13 +17,13 @@
 /**
  * This is the language customisation file.
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'Course creation wizard';
+$string['pluginname'] = 'Course creator';
 $string['pluginname_desc'] = 'Adds menu to create courses';
-$string['privacy:metadata'] = 'The course creation wizard only create course.';
+$string['privacy:metadata'] = 'The course creator only create course.';
 $string['create_option_a'] = "From school template";
 $string['create_option_b'] = "From previous course";
 $string['create_option_c'] = "Blank course";
@@ -35,12 +35,12 @@ $string['course_short_name'] = "Course short name";
 $string['category_select'] = "Select a category";
 $string['course_restoring'] = "Restoring course";
 $string['course_backing_up'] = "Backing up course";
-$string['stage_one'] = "1. Course creation wizard";
+$string['stage_one'] = "1. Course creator";
 $string['stage_two'] = "2. Course setup";
 $string['stage_three'] = "3. Course information";
-$string['course_creation_wizard_legend'] = "Select type";
+$string['course_creator_legend'] = "Select type";
 $string['course_restore_wizard_legend'] = "Restore settings";
-$string['setting_name'] = "Course Creation wizard settings";
+$string['setting_name'] = "Course creator settings";
 $string['heading_list'] = "Heading list";
 $string['add_heading'] = "Add heading";
 $string['add_course'] = "Add course";
@@ -54,4 +54,5 @@ $string['missingcourseid'] = "Missing course id";
 $string['enternumberonly'] = "Enter number only";
 $string['courseid'] = "Course ID";
 $string['invalidcourseid'] = "Invalid courseid."; 
+$string['choose'] = "Choose"; 
    

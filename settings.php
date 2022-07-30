@@ -17,7 +17,7 @@
 
 /**
  * @package      local
- * @subpackage   course_creation_wizard
+ * @subpackage   course_creator
  * @author       Shubhendra Doiphode (Github: doiphode)
  * @license      http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,10 +26,10 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) { // needs this condition or there is error on login page
     // Create the new settings page in a local plugin this is not defined as standard, so normal $settings->methods will throw an error as $settings will be NULL.
-    $settings = new admin_settingpage('local_course_creation_wizard', get_string('setting_name', 'local_course_creation_wizard'));
+    $settings = new admin_settingpage('local_course_creator', get_string('setting_name', 'local_course_creator'));
 
-    $settings->add(new admin_setting_description('local_course_creation_wizard/heading',
-        '<a href="../local/course_creation_wizard/addheading.php?category=1">' . get_string('add_heading', 'local_course_creation_wizard') . '</a>', '', ''));
+    $settings->add(new admin_setting_description('local_course_creator/heading',
+        '<a href="../local/course_creator/addheading.php?category=1">' . get_string('add_heading', 'local_course_creator') . '</a>', '', ''));
 
     $ADMIN->add('localplugins', $settings);
 

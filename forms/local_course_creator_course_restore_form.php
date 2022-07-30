@@ -1,7 +1,7 @@
 <?php
 /****************************************************************
  *
- * File:     /local/course_creation_wizard/forms/course_create_form.php
+ * File:     /local/course_creator/forms/course_create_form.php
  *
  * Purpose:  Form for course creation
  ****************************************************************/
@@ -24,7 +24,7 @@
 /**
  * Form to create a course.
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,20 +32,20 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
-class course_restore_form extends moodleform {
+class local_course_creator_course_restore_form extends moodleform {
     public function definition() {
         global $CFG;
         global $SESSION;
 
         $mform = &$this->_form;
         $attributes = array();
-        $mform->addElement('header', 'course_create_header', get_string('course_restore_wizard_legend', 'local_course_creation_wizard'));
-        $mform->addElement('text', 'fullname', get_string('course_full_name', 'local_course_creation_wizard'), $attributes);
+        $mform->addElement('header', 'course_create_header', get_string('course_restore_wizard_legend', 'local_course_creator'));
+        $mform->addElement('text', 'fullname', get_string('course_full_name', 'local_course_creator'), $attributes);
         $mform->addRule('fullname', null, 'required', null, 'client');
-        $mform->setType('fullname', PARAM_RAW);
-        $mform->addElement('text', 'shortname', get_string('course_short_name', 'local_course_creation_wizard'), $attributes);
+        $mform->setType('fullname', PARAM_TEXT);
+        $mform->addElement('text', 'shortname', get_string('course_short_name', 'local_course_creator'), $attributes);
         $mform->addRule('shortname', null, 'required', null, 'client');
-        $mform->setType('shortname', PARAM_RAW);
+        $mform->setType('shortname', PARAM_TEXT);
         // require_once($CFG->libdir . '/coursecatlib.php');
         $displaylist = core_course_category::make_categories_list('moodle/course:create');
         // $displaylist = coursecat::make_categories_list('moodle/course:create');
@@ -53,7 +53,7 @@ class course_restore_form extends moodleform {
         // $course_cat = $course_cat->shortname;
         // }
 
-        $mform->addElement('select', 'course_categories', get_string('category_select', 'local_course_creation_wizard'), $displaylist, array('class' => 'cat_list'));
+        $mform->addElement('select', 'course_categories', get_string('category_select', 'local_course_creator'), $displaylist, array('class' => 'cat_list'));
 
         $mform->setDefault('course_categories', array('id' => $SESSION->catid));
 

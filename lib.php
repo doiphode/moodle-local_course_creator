@@ -18,7 +18,7 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param course_context $context
  * @return void
  */
-function local_course_creation_wizard_extend_settings_navigation(settings_navigation $navigation, $context) {
+function local_course_creator_extend_settings_navigation(settings_navigation $navigation, $context) {
     global $CFG, $DB, $PAGE;
 
     $categorynode = $navigation->get('categorysettings');
@@ -53,14 +53,14 @@ function local_course_creation_wizard_extend_settings_navigation(settings_naviga
     if (has_capability('moodle/course:create', $context)) {
 
 
-        // $url = new moodle_url('/local/course_creation_wizard/view.php', array('category' => $context->instanceid));
-        // $node = navigation_node::create(get_string('pluginname', 'local_course_creation_wizard'), $url, navigation_node::TYPE_SETTING, null, 'course_create', new pix_icon('i/return', ''));
+        // $url = new moodle_url('/local/course_creator/view.php', array('category' => $context->instanceid));
+        // $node = navigation_node::create(get_string('pluginname', 'local_course_creator'), $url, navigation_node::TYPE_SETTING, null, 'course_create', new pix_icon('i/return', ''));
         // $PAGE->navigation->add_node($node);
         // $node->showinflatnavigation = true;
 
-        $url = new moodle_url('/local/course_creation_wizard/view.php', array('category' => $context->instanceid));
-//        $url = new moodle_url('/local/course_creation_wizard/addheading.php', array('category' => $context->instanceid));
-        $categorynode->add(get_string('pluginname', 'local_course_creation_wizard'), $url, navigation_node::TYPE_SETTING, null, 'course_create', new pix_icon('i/return', ''));
+        $url = new moodle_url('/local/course_creator/view.php', array('category' => $context->instanceid));
+//        $url = new moodle_url('/local/course_creator/addheading.php', array('category' => $context->instanceid));
+        $categorynode->add(get_string('pluginname', 'local_course_creator'), $url, navigation_node::TYPE_SETTING, null, 'course_create', new pix_icon('i/return', ''));
 
 
     }

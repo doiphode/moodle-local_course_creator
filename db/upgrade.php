@@ -16,19 +16,19 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+ */ 
 
-function xmldb_local_course_creation_wizard_upgrade($oldversion) {
+function xmldb_local_course_creator_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2018070901) {
 
-        $table = new xmldb_table('course_template_category');
+        $table = new xmldb_table('local_course_creator_cat');
 
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('name', XMLDB_TYPE_CHAR, '255', null, null, null, null);
@@ -41,7 +41,7 @@ function xmldb_local_course_creation_wizard_upgrade($oldversion) {
         }
 
 
-        upgrade_plugin_savepoint(true, 2018070901, 'local', 'course_creation_wizard');
+        upgrade_plugin_savepoint(true, 2018070901, 'local', 'course_creator');
     }
 
     if ($oldversion < 2018070908) {
@@ -50,7 +50,7 @@ function xmldb_local_course_creation_wizard_upgrade($oldversion) {
             $dbman->drop_table($table);
         }
 
-        $table = new xmldb_table('course_template_items');
+        $table = new xmldb_table('local_course_creator_items');
 
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('categoryid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
@@ -63,7 +63,7 @@ function xmldb_local_course_creation_wizard_upgrade($oldversion) {
             $dbman->create_table($table);
         }
 
-        upgrade_plugin_savepoint(true, 2018070908, 'local', 'course_creation_wizard');
+        upgrade_plugin_savepoint(true, 2018070908, 'local', 'course_creator');
     }
 
     return true;

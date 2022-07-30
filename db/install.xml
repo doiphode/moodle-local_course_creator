@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/course_creation_wizard/db" VERSION="20220427" COMMENT="XMLDB file for Moodle local/course_creation_wizard"
+<XMLDB PATH="local/course_creator/db" VERSION="20220427" COMMENT="XMLDB file for Moodle local/course_creator"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="course_template_category" COMMENT="Course template category">
+    <TABLE NAME="local_course_creator_cat" COMMENT="Course template category">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Id" />
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Name" />
@@ -14,7 +14,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="course_template_items" COMMENT="Course template items">
+    <TABLE NAME="local_course_creator_items" COMMENT="Course template items">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Id" />
         <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Category ID"/>

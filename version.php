@@ -16,16 +16,16 @@
 
 /**
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022050700;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version = 2021050909;        // The current plugin version (Date: YYYYMMDDXX)
 
-$plugin->requires = 2011120100;        // Moodle 2.2 onwards
-$plugin->component = 'local_course_creation_wizard';       // Full name of the plugin (used for diagnostics)
+$plugin->requires = 2020061502;        // Moodle 3.9 onwards
+$plugin->component = 'local_course_creator';       // Full name of the plugin (used for diagnostics)
 $plugin->maturity = MATURITY_STABLE; // required for registering to Moodle's database of plugins
 $plugin->release = '3.9 (Build 20210501)';  // required for registering to Moodle's database of plugins
 $plugin->dependencies = array();

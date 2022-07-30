@@ -21,23 +21,23 @@
  *
  * Can be retrieved with the following code:
  * <?php
- *  $renderer = $PAGE->get_renderer('local_course_creation_wizard');
+ *  $renderer = $PAGE->get_renderer('local_course_creator');
  * ?>
  *
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-class local_course_creation_wizard_renderer extends plugin_renderer_base {
-    const COURSE_CREATION_WIZARD = 0;
+class local_course_creator_renderer extends plugin_renderer_base {
+    const course_creator = 0;
     const COURSE_SETUP = 1;
     const COURSE_INFORMATION = 2;
 
     public function display_breadcrumb($stage) {
-        $items = [get_string('stage_one', 'local_course_creation_wizard'), get_string('stage_two', 'local_course_creation_wizard'), get_string('stage_three', 'local_course_creation_wizard')];
+        $items = [get_string('stage_one', 'local_course_creator'), get_string('stage_two', 'local_course_creator'), get_string('stage_three', 'local_course_creator')];
         foreach ($items as $key => &$item) {
             $attr = array();
             if ($key == $stage) {

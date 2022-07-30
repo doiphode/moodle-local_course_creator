@@ -30,7 +30,7 @@ require_once $CFG->dirroot . '/course/lib.php';
  *
  * restore_course is a class to restore the backup course from course creation wizard
  * @package local
- * @subpackage course_creation_wizard
+ * @subpackage course_creator
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -99,9 +99,9 @@ class restore_course_wizard {
             backup::TARGET_NEW_COURSE);
         $controller->execute_precheck();
         echo $OUTPUT->header();
-        $renderer = $PAGE->get_renderer('local_course_creation_wizard');
+        $renderer = $PAGE->get_renderer('local_course_creator');
         echo $renderer->display_breadcrumb(2);
-        echo get_string('course_restoring', 'local_course_creation_wizard');
+        echo get_string('course_restoring', 'local_course_creator');
 
         // Commit.
         $transaction->allow_commit();
