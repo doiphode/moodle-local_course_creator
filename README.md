@@ -1,6 +1,6 @@
-# Course Creation Wizard
+# Course Creator
 
-The Course Creation Wizard gives users a quick way to create courses within a category. It sits under the course category menu.
+The Course Creation is a wizard that gives users a quick way to create courses within a category. It sits under the course category menu.
 
 Courses can be created based on an existing course within the category, based on a template that is added in any category and as a blank course.
 
