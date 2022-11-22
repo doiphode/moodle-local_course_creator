@@ -30,7 +30,7 @@ require_login();
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/formslib.php');
 
-require("courselist_table.php");
+require_once("classes/courselist_table.php");
 
 $categoryid = optional_param('category', 0, PARAM_INT);
 

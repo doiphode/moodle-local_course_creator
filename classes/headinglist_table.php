@@ -21,12 +21,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(__FILE__)) . '../../config.php');
+// require_once(dirname(dirname(__FILE__)) . '../../config.php');
 global $CFG, $USER, $DB;
 
 require "$CFG->libdir/tablelib.php";
 
-class courselist_table extends table_sql {
+class headinglist_table extends table_sql {
 
     /**
      * Constructor
@@ -38,48 +38,37 @@ class courselist_table extends table_sql {
         // Define the list of columns to show.
 
 
-        $columns = array('courseid', 'course', 'category', 'action');
+        $columns = array('name', 'totalcourse', 'action');
         $this->define_columns($columns);
 
         // Define the titles of columns to show in header.
 
         $headers = array(
-            get_string('courseid', 'local_course_creator'),
-            get_string('course'),
-            get_string('category'),
+            get_string('name'),
+            get_string('totalcourse', 'local_course_creator'),
             get_string('action'));
         $this->define_headers($headers);
     }
 
+    function col_totalcourse($value) {
+        $id = $value->id;
 
-    function col_course($value) {
         global $DB;
-        $id = $value->courseid;
 
-        $data = $DB->get_record_sql("SELECT * FROM {course} WHERE id=?", array($id));
-        return $data->fullname;
-    }
-
-    function col_category($value) {
-        global $DB;
-        $id = $value->categoryid;
-        
-        $data = $DB->get_record_sql("SELECT * FROM {local_course_creator_cat} WHERE id=?", array($id));
-        return $data->name;
+        $data = $DB->get_record_sql("SELECT count(*) as allcount FROM {local_course_creator_items} WHERE categoryid=?", array($id));
+        return $data->allcount;
     }
 
     function col_action($value) {
         $categoryid = optional_param('category', 0, PARAM_INT);
         $id = $value->id;
 
-        $action = "";
-        if(is_numeric($categoryid) && is_numeric($id)){
-            $action = '<div >
-                <a href="addcourse.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('edit') . '</a>&nbsp;&nbsp;
-                <a href="addcourse.php?category=' . $categoryid . '&delete=' . $id . '">' . get_string('delete') . '</a>
-            </div>';
-        }
-        
+        $action = '<div >
+            <a href="addheading.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('edit') . '</a>&nbsp;&nbsp;
+            <a href="addheading.php?category=' . $categoryid . '&delete=' . $id . '&sesskey='.sesskey().'">' . get_string('delete') . '</a>&nbsp;&nbsp;
+            <a href="headingcourselist.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('viewcourse', 'local_course_creator') . '</a>
+        </div>';
+
         return $action;
     }
 

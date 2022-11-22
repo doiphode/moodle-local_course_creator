@@ -87,4 +87,3 @@ if ($editform->is_cancelled()) {
     $editform->display();
     echo $OUTPUT->footer();
 }
-?>

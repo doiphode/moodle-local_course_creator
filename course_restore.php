@@ -21,7 +21,7 @@
  */
 define('NO_OUTPUT_BUFFERING', true);
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-require_once('classlib.php');
+require_once('classes/classlib.php');
 global $DB, $CFG, $USER, $COURSE, $PAGE, $EXTDB, $OUTPUT;
 require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 require_once 'forms/local_course_creator_course_restore_form.php';

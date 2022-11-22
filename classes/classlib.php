@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // No direct script access.
-require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/../config.php');
 defined('MOODLE_INTERNAL') || die();
 /* *
  * Defaults for the local course create

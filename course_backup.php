@@ -155,13 +155,15 @@ if ($backup->get_stage() == backup_ui::STAGE_FINAL) {
     $file = $results['backup_destination'];
     $filename = $bc->get_backupid();
     $archive = $CFG->dataroot . '/temp/backup/' . $filename;
+  
     $file->copy_content_to($archive);
     //Delete the backup file from filedir and remove entry from the database
-    $file_content_hash = $file->get_contenthash();
-    $file_dir = substr($file_content_hash, 0, 2) . '/' . substr($file_content_hash, 2, 2) . '/' . $file_content_hash;
-    $file_path = $CFG->dataroot . '/filedir/' . $file_dir;
-    unlink($file_path);
-    $DB->delete_records('files', array('contenthash' => $file_content_hash, 'userid' => $USER->id, 'mimetype' => 'application/vnd.moodle.backup'));
+    
+    // Delete it if it exists
+    if ($file) {
+        $file->delete();
+    }
+
     //Div to fix the backup process
     echo html_writer::end_div();
 

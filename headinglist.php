@@ -20,16 +20,16 @@
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once(dirname(dirname(__FILE__)) . '../../config.php');
 global $PAGE, $CFG, $USER, $DB, $OUTPUT, $COURSE, $SESSION;
 
 require_login();
 
-
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/formslib.php');
 
-require("heading_table.php");
+require_once("classes/headinglist_table.php");
 
 $categoryid = optional_param('category', 0, PARAM_INT);
 
@@ -55,19 +55,19 @@ $PAGE->requires->jquery();
 echo $OUTPUT->header();
 
 //plan list table
-$pera[] = 'id > 0';
-$table = new heading_table('uniqueid');
+$table = new headinglist_table('uniqueid');
 $search = optional_param('search', '', PARAM_ALPHA);
-$searchstr = "";
-$where = array();
+
+$params = array();
+$searchselect = "id>0";
 if (!empty($search)) {
-    $searchstr = 'name like :search';
-    $pera[] = '( ' . $searchstr . ' )';
-    $where['search'] = "%".$search."%";
+
+    $searchselect .= " AND (".$DB->sql_like('name', ':name',false).")";
+    $params['name'] = '%' . $DB->sql_like_escape($search) . '%';
+    
 }
 // Work out the sql for the table.
-$perasstring = implode("&&", $pera);
-$table->set_sql('*', "{local_course_creator_cat}", "$perasstring",$where);
+$table->set_sql('*', "{local_course_creator_cat}", $searchselect,$params);
 $table->no_sorting('name');
 $table->no_sorting('totalcourse');
 $table->no_sorting('action');
