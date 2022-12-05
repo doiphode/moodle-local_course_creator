@@ -14,9 +14,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
+namespace local_course_creator\local;
 // No direct script access.
-require_once(dirname(dirname(dirname(__FILE__))) . '/../config.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/../../config.php');
 defined('MOODLE_INTERNAL') || die();
 /* *
  * Defaults for the local course create
@@ -71,7 +71,7 @@ class restore_course_wizard {
     }
 
     protected function update_course() {
-        $course_data = new stdClass();
+        $course_data = new \stdClass();
         $course_data->id = $this->courseid;
         $course_data->fullname = $this->fullname;
         $course_data->shortname = $this->shortname;
@@ -81,6 +81,7 @@ class restore_course_wizard {
 
     public function execute() {
         GLOBAL $CFG, $USER, $DB, $OUTPUT, $PAGE;
+
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
         // Transaction.
@@ -90,13 +91,13 @@ class restore_course_wizard {
         $folder = $this->filepath; // as found in: $CFG->dataroot . '/temp/backup/'
         $categoryid = $this->category; // e.g. 1 == Miscellaneous
         $userdoingrestore = $USER->id; // e.g. 2 == admin
-        $courseid = restore_dbops::create_new_course('Restored Course', 'RES', $categoryid);
+        $courseid = \restore_dbops::create_new_course('Restored Course', 'RES', $categoryid);
         $this->courseid = $courseid;
 
         // Restore backup into course.
-        $controller = new restore_controller($folder, $courseid,
-            backup::INTERACTIVE_NO, backup::MODE_GENERAL, $userdoingrestore,
-            backup::TARGET_NEW_COURSE);
+        $controller = new \restore_controller($folder, $courseid,
+            \backup::INTERACTIVE_NO, \backup::MODE_GENERAL, $userdoingrestore,
+            \backup::TARGET_NEW_COURSE);
         $controller->execute_precheck();
         echo $OUTPUT->header();
         $renderer = $PAGE->get_renderer('local_course_creator');
@@ -107,11 +108,11 @@ class restore_course_wizard {
         $transaction->allow_commit();
 
         // Div used to hide the 'progress' step once the page gets onto 'finished'.
-        echo html_writer::start_div('', array('id' => 'executionprogress'));
+        echo \html_writer::start_div('', array('id' => 'executionprogress'));
         // Start displaying the actual progress bar percentage.
         $controller->set_progress(new \core\progress\display());
         $controller->execute_plan();
-        echo html_writer::end_div();
+        echo \html_writer::end_div();
         //echo html_writer::script('document.getElementById("executionprogress").style.display = "none";');
         $controller->destroy();
         self::delete($this->directory . $this->filepath);

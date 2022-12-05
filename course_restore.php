@@ -19,9 +19,13 @@
  * @author      Shubhendra Doiphode (Github: doiphode)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 define('NO_OUTPUT_BUFFERING', true);
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-require_once('classes/classlib.php');
+require_once('classes/local/restore_course_wizard.php');
+
+use local_course_creator\local\restore_course_wizard as restore_course_wizard;
+
 global $DB, $CFG, $USER, $COURSE, $PAGE, $EXTDB, $OUTPUT;
 require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 require_once 'forms/local_course_creator_course_restore_form.php';
