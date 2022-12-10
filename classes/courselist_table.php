@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+
 /**
  * @package local
  * @subpackage course_creator
@@ -21,12 +22,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// require_once(dirname(dirname(__FILE__)) . '../../config.php');
+namespace local_course_creator;
+
 global $CFG, $USER, $DB;
 
 require "$CFG->libdir/tablelib.php";
 
-class courselist_table extends table_sql {
+class courselist_table extends \table_sql {
 
     /**
      * Constructor

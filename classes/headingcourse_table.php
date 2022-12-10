@@ -26,7 +26,7 @@ global $CFG, $USER, $DB;
 
 require "$CFG->libdir/tablelib.php";
 
-class headinglist_table extends \table_sql {
+class headingcourse_table extends \table_sql {
 
     /**
      * Constructor
@@ -38,35 +38,34 @@ class headinglist_table extends \table_sql {
         // Define the list of columns to show.
 
 
-        $columns = array('name', 'totalcourse', 'action');
+        $columns = array('courseid', 'action');
         $this->define_columns($columns);
 
         // Define the titles of columns to show in header.
-
         $headers = array(
             get_string('name'),
-            get_string('totalcourse', 'local_course_creator'),
             get_string('action'));
         $this->define_headers($headers);
     }
 
-    function col_totalcourse($value) {
-        $id = $value->id;
+    function col_courseid($value) {
+        $courseid = $value->courseid;
 
         global $DB;
 
-        $data = $DB->get_record_sql("SELECT count(*) as allcount FROM {local_course_creator_items} WHERE categoryid=?", array($id));
-        return $data->allcount;
+        $data = $DB->get_record_sql("SELECT * FROM {course} WHERE id=?", array($courseid));
+        return $data->fullname;
     }
 
     function col_action($value) {
-        $categoryid = optional_param('category', 0, PARAM_INT);
         $id = $value->id;
+        $categoryid = $value->categoryid;
+
+        $catid = optional_param('category', 0, PARAM_INT);
 
         $action = '<div >
-            <a href="addheading.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('edit') . '</a>&nbsp;&nbsp;
-            <a href="addheading.php?category=' . $categoryid . '&delete=' . $id . '&sesskey='.sesskey().'">' . get_string('delete') . '</a>&nbsp;&nbsp;
-            <a href="headingcourselist.php?category=' . $categoryid . '&id=' . $id . '">' . get_string('viewcourse', 'local_course_creator') . '</a>
+           
+            <a href="headingcourselist.php?category=' . $catid . '&id=' . $categoryid . '&delete=' . $id . '">' . get_string('delete') . '</a>
         </div>';
 
         return $action;
