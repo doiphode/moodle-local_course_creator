@@ -49,7 +49,7 @@ class local_course_creator_course_create_form extends moodleform {
 
         $mform->addGroup($radioarray, 'radioar', get_string('create_option_label', 'local_course_creator'), array(' '), false);
         $mform->setDefault('createchoice', 2);
-        
+
         $catcourses = $DB->get_records_select('course', "category=:categoryid", ['categoryid'=>$categoryid], 'fullname ASC', 'id, fullname');
 
         foreach ($catcourses as $id => &$catcourse) {
@@ -59,13 +59,13 @@ class local_course_creator_course_create_form extends moodleform {
 
         // --
         $tempcourses = $DB->get_records_select('course', "category=:category", ['category'=> self::TEMPELATE_CAT_ID], 'fullname ASC', 'id, fullname');
-       
+
         foreach ($tempcourses as $id => &$tempcourse) {
             $tempcourse = $tempcourse->fullname;
         }
         //        $mform->addElement('select', 'course_template', get_string('template_options', 'local_course_creator'), $tempcourses, array('class'=>'create_template'));
 
-        $courseTemplate_arr = array(); 
+        $courseTemplate_arr = array();
         $records = $DB->get_records_sql("SELECT cti.*,ctc.name as categoryname,c.fullname as coursename FROM {local_course_creator_items} cti LEFT JOIN {local_course_creator_cat} ctc ON cti.categoryid=ctc.id LEFT JOIN {course} c ON c.id=cti.courseid order by cti.categoryid asc");
         foreach ($records as $record) {
             $courseTemplate_arr[$record->categoryname][$record->courseid] = $record->coursename;
@@ -73,7 +73,7 @@ class local_course_creator_course_create_form extends moodleform {
 
         $mform->addElement('selectgroups', 'course_template', get_string('template_options', 'local_course_creator'), $courseTemplate_arr, array('class' => 'create_template'));
         // --
-        $this->add_action_buttons(true, 'Create Course');
+        $this->add_action_buttons(true, get_string('createcourse', 'local_course_creator'));
 
     }
 }

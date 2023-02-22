@@ -57,6 +57,6 @@ class local_course_creator_course_restore_form extends moodleform {
 
         $mform->setDefault('course_categories', array('id' => $SESSION->catid));
 
-        $this->add_action_buttons(true, 'Create Course');
+        $this->add_action_buttons(true, get_string('createcourse', 'local_course_creator'));
     }
 }

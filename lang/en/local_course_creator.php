@@ -53,6 +53,7 @@ $string['courses'] = "Courses";
 $string['missingcourseid'] = "Missing course id";
 $string['enternumberonly'] = "Enter number only";
 $string['courseid'] = "Course ID";
-$string['invalidcourseid'] = "Invalid courseid."; 
-$string['choose'] = "Choose"; 
-   
+$string['invalidcourseid'] = "Invalid courseid.";
+$string['choose'] = "Choose";
+
+$string['createcourse'] = "Create Course";
