@@ -56,7 +56,8 @@ echo $OUTPUT->header();
 
 //plan list table
 $pera[] = 'id > 0';
-$table = new courselist_table('uniqueid');
+//$table = new courselist_table('uniqueid');
+$table = new \local_course_creator\courselist_table('uniqueid');
 //$search = optional_param('search', '', PARAM_ALPHA);
 $searchstr = "";
 

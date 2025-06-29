@@ -29,7 +29,7 @@ require_login();
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/formslib.php');
 
-require_once("classes/headinglist_table.php");
+require_once(__DIR__ . "/classes/headinglist_table.php");
 
 $categoryid = optional_param('category', 0, PARAM_INT);
 
@@ -55,7 +55,8 @@ $PAGE->requires->jquery();
 echo $OUTPUT->header();
 
 //plan list table
-$table = new headinglist_table('uniqueid');
+$table = new \local_course_creator\headinglist_table('uniqueid');
+//$table = new headinglist_table('uniqueid');
 $search = optional_param('search', '', PARAM_ALPHA);
 
 $params = array();
@@ -64,7 +65,7 @@ if (!empty($search)) {
 
     $searchselect .= " AND (".$DB->sql_like('name', ':name',false).")";
     $params['name'] = '%' . $DB->sql_like_escape($search) . '%';
-    
+
 }
 // Work out the sql for the table.
 $table->set_sql('*', "{local_course_creator_cat}", $searchselect,$params);

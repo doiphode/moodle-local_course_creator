@@ -34,9 +34,9 @@ $categoryid = optional_param('category', 0, PARAM_INT);
 $catcontext = context_coursecat::instance($COURSE->id);
 require_capability('moodle/course:create', $catcontext);
 
-require_capability('moodle/backup:backupcourse', context_course::instance($COURSE->id));  
+require_capability('moodle/backup:backupcourse', context_course::instance($COURSE->id));
 // --
-    
+
 $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_url('/local/course_creator/courselist.php?category=' . $categoryid);
@@ -67,7 +67,9 @@ $mform = new local_course_creator_addcourse_form(null, array('data' => $data, "c
 
 if ($mform->is_cancelled()) {
 
-    $returnurl = new moodle_url('/local/course_creator/courselist.php?category=' . $SESSION->catid);
+  $catid = isset($SESSION->catid) ? $SESSION->catid : 1; // default to 0 or null or any fallback
+  $returnurl = new moodle_url('/local/course_creator/courselist.php', ['category' => $catid]);
+
 
     redirect($returnurl);
 } else if ($formdata = $mform->get_data()) {

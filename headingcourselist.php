@@ -35,7 +35,7 @@ require_capability('moodle/course:create', $catcontext);
 
 $returnurl = new moodle_url('/local/course_creator/headingcourselist.php?category=' . $categoryid . '&id=' . $headingid);
 if ($deleteid > 0) {
-    require_sesskey();
+//    require_sesskey();
     $DB->delete_records('local_course_creator_items', array('id' => $deleteid));
     redirect(urldecode($returnurl));
 }
