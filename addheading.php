@@ -68,7 +68,9 @@ $mform = new local_course_creator_addheading_form(null, array('data' => $data, "
 
 if ($mform->is_cancelled()) {
 
-    $returnurl = new moodle_url('/local/course_creator/headinglist.php?category=' . $SESSION->catid);
+//    $returnurl = new moodle_url('/local/course_creator/headinglist.php?category=' . $SESSION->catid);
+    $catid = isset($SESSION->catid) ? $SESSION->catid : 1; // default to 0 or null or any fallback
+    $returnurl = new moodle_url('/local/course_creator/headinglist.php', ['category' => $catid]);
 
     redirect($returnurl);
 } else if ($formdata = $mform->get_data()) {
