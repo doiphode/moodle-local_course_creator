@@ -56,9 +56,6 @@ class local_course_creator_addheading_form extends moodleform {
         $returnurl = new moodle_url('/local/course_creator/headinglist.php?category=' . $catid);
         $addurl = new moodle_url('/local/course_creator/addcourse.php?category=' . $catid);
 
-        $linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_course', 'local_course_creator') . '</a>&nbsp;&nbsp;&nbsp;<a href="' . $returnurl . '">' . get_string('heading_list', 'local_course_creator') . '</a></div>';
-        $mform->addElement('html', $linkcontent);
-
         $mform->addElement('hidden', 'eid', "", array("size" => 50, "maxlength" => 50, "width" => "100%"));
         $mform->setType('eid', PARAM_INT);
         $mform->setDefault('eid', $eid);

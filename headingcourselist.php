@@ -57,7 +57,6 @@ $thingnode->make_active();
 
 $PAGE->requires->jquery();
 
-
 echo $OUTPUT->header();
 
 //plan list table

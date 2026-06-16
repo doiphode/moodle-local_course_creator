@@ -57,3 +57,4 @@ $string['invalidcourseid'] = "Invalid courseid.";
 $string['choose'] = "Choose";
 
 $string['createcourse'] = "Create Course";
+$string['managetemplate'] = "Manage templates";

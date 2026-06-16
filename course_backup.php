@@ -76,18 +76,17 @@ require_login();
 switch ($type) {
     case backup::TYPE_1COURSE :
         require_capability('moodle/backup:backupcourse', context_course::instance($course->id));
-        $heading = get_string('backupcourse', 'backup', $course->shortname);
+        $heading = get_string('backupcoursedetails', 'backup', $course->shortname);
         break;
     case backup::TYPE_1SECTION :
         $coursecontext = context_course::instance($course->id);
         require_capability('moodle/backup:backupsection', $coursecontext);
+
         if ((string)$section->name !== '') {
             $sectionname = format_string($section->name, true, array('context' => $coursecontext));
             $heading = get_string('backupsection', 'backup', $sectionname);
-//                    $PAGE->navbar->add($sectionname);
         } else {
             $heading = get_string('backupsection', 'backup', $section->section);
-//                    $PAGE->navbar->add(get_string('section').' '.$section->section);
         }
         break;
     case backup::TYPE_1ACTIVITY :
@@ -155,10 +154,10 @@ if ($backup->get_stage() == backup_ui::STAGE_FINAL) {
     $file = $results['backup_destination'];
     $filename = $bc->get_backupid();
     $archive = $CFG->dataroot . '/temp/backup/' . $filename;
-  
+
     $file->copy_content_to($archive);
-    //Delete the backup file from filedir and remove entry from the database
-    
+    // Delete the backup file from filedir and remove entry from the database
+
     // Delete it if it exists
     if ($file) {
         $file->delete();
@@ -167,10 +166,14 @@ if ($backup->get_stage() == backup_ui::STAGE_FINAL) {
     //Div to fix the backup process
     echo html_writer::end_div();
 
+    $restoreurl = (new moodle_url('/local/course_creator/course_restore.php', ['filename' => $filename]))->out(false);
 
-    // redirect(new moodle_url('/local/course_creator/course_restore.php', array('filename' => $filename)));
+    if (method_exists($PAGE->requires, 'js_init_code')) {
+        $PAGE->requires->js_init_code('window.location="' . $restoreurl . '";');
+    } else {
+        $PAGE->requires->js_amd_inline('window.location="' . $restoreurl . '";');
+    }
 
-    echo "<script type='text/javascript'>window.location='" . new moodle_url('/local/course_creator/course_restore.php', array('filename' => $filename)) . "'</script>";
     // Backup controller gets saved/loaded so the logger object changes and we
     // have to retrieve it.
     $logger = $backup->get_controller()->get_logger();
@@ -185,7 +188,18 @@ if ($backup->get_stage() == backup_ui::STAGE_FINAL) {
 
     // Hide the progress display and first backup step bar (the 'finished' step will show next).
     echo html_writer::end_div();
-    echo html_writer::script('document.getElementById("executionprogress").style.display = "none";');
+
+    if (method_exists($PAGE->requires, 'js_init_code')) {
+        $PAGE->requires->js_init_code('document.getElementById("executionprogress").style.display = "none";');
+        // Hide the continue button on the page.
+        $PAGE->requires->js_init_code('document.querySelector("#page-content .continuebutton").style.display = "none";');
+    } else {
+        $PAGE->requires->js_amd_inline('document.getElementById("executionprogress").style.display = "none";');
+        // Hide the continue button on the page.
+        $PAGE->requires->js_amd_inline('document.querySelector("#page-content .continuebutton").style.display = "none";');
+    }
+
+
 } else {
     $backup->save_controller();
 }

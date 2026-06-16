@@ -54,6 +54,9 @@ $thingnode->make_active();
 $PAGE->requires->jquery();
 echo $OUTPUT->header();
 
+// Action bar.
+echo \local_course_creator\output\manager_actionbar::instance($PAGE, $categoryid, 'courselist');
+
 //plan list table
 $pera[] = 'id > 0';
 //$table = new courselist_table('uniqueid');
@@ -71,10 +74,6 @@ $table->no_sorting('category');
 // $table->sortable(true,'daytimestamp','DESC');
 $table->define_baseurl("$CFG->wwwroot/local/course_creator/courselist.php?category=" . $categoryid);
 
-$addcategoryurl = new moodle_url('/local/course_creator/addheading.php?category=' . $categoryid);
-$addurl = new moodle_url('/local/course_creator/addcourse.php?category=' . $categoryid);
-$linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_course', 'local_course_creator') . '</a>&nbsp;&nbsp;&nbsp;<a href="' . $addcategoryurl . '">' . get_string('add_heading', 'local_course_creator') . '</a></div>';
-echo $linkcontent;
-
 $table->out(20, true);
+
 echo $OUTPUT->footer();

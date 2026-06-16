@@ -54,31 +54,28 @@ $PAGE->requires->jquery();
 
 echo $OUTPUT->header();
 
-//plan list table
+echo \local_course_creator\output\manager_actionbar::instance($PAGE, $categoryid, 'headinglist');
+
+// Plan list table.
 $table = new \local_course_creator\headinglist_table('uniqueid');
-//$table = new headinglist_table('uniqueid');
+
 $search = optional_param('search', '', PARAM_ALPHA);
 
 $params = array();
 $searchselect = "id>0";
 if (!empty($search)) {
-
     $searchselect .= " AND (".$DB->sql_like('name', ':name',false).")";
     $params['name'] = '%' . $DB->sql_like_escape($search) . '%';
-
 }
+
 // Work out the sql for the table.
 $table->set_sql('*', "{local_course_creator_cat}", $searchselect,$params);
 $table->no_sorting('name');
 $table->no_sorting('totalcourse');
 $table->no_sorting('action');
-// $table->sortable(true,'daytimestamp','DESC');
+
 $table->define_baseurl("$CFG->wwwroot/local/course_creator/headinglist.php?category=" . $categoryid);
 
-$addurl = new moodle_url('/local/course_creator/addheading.php?category=' . $categoryid);
-$addtemplateurl = new moodle_url('/local/course_creator/addcourse.php?category=' . $categoryid);
-$linkcontent = '<div style="text-align:right;margin-bottom: 20px;"><a href="' . $addurl . '">' . get_string('add_heading', 'local_course_creator') . '</a>&nbsp;&nbsp;&nbsp;<a href="' . $addtemplateurl . '">' . get_string('add_course', 'local_course_creator') . '</a></div>';
-echo $linkcontent;
-
 $table->out(20, true);
+
 echo $OUTPUT->footer();
