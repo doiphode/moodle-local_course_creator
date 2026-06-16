@@ -112,6 +112,8 @@ if ($mform->is_cancelled()) {
 
 echo $OUTPUT->header();
 
+echo \local_course_creator\output\manager_actionbar::instance($PAGE, $categoryid, 'addheading');
+
 echo $OUTPUT->box_start('generalbox');
 $mform->display();
 echo $OUTPUT->box_end();

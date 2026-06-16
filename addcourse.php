@@ -39,7 +39,7 @@ require_capability('moodle/backup:backupcourse', context_course::instance($COURS
 
 $context = context_system::instance();
 $PAGE->set_context($context);
-$PAGE->set_url('/local/course_creator/courselist.php?category=' . $categoryid);
+$PAGE->set_url('/local/course_creator/addcourse.php?category=' . $categoryid);
 $PAGE->requires->jquery();
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_course_creator'));
@@ -118,6 +118,7 @@ if ($mform->is_cancelled()) {
 
 echo $OUTPUT->header();
 
+echo \local_course_creator\output\manager_actionbar::instance($PAGE, $categoryid, 'addcourse');
 
 echo $OUTPUT->box_start('generalbox');
 $mform->display();
