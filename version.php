@@ -22,7 +22,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2026061600;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version = 2026062300;        // The current plugin version (Date: YYYYMMDDXX)
 
 $plugin->requires = 2022112800;        // Moodle 4.1 onwards
 $plugin->component = 'local_course_creator';       // Full name of the plugin (used for diagnostics)
